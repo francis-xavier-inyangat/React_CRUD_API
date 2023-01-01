@@ -34,6 +34,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/books", (req, res) => {
+  // the names of values should match those in the db columns
   const q = "INSERT INTO books (`Title`,`Desc`,`Price`,`Cover`) VALUES (?)";
   const values = [
     req.body.Title,
@@ -47,6 +48,31 @@ app.post("/books", (req, res) => {
     return res.json("Book has been created succefully");
   });
 });
+app.delete("/books/:Id", (req, res) => {
+  const bookId = req.params.Id;
+  const q = "DELETE FROM books WHERE Id = ? ";
+  db.query(q, bookId, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(`Book with ID ${bookId} has been deleted successfully`);
+  });
+});
 app.listen(8800, () => {
-  console.log("Connected to the backend!");
+  console.log("Connected to the backend !");
+});
+
+app.put("/books/:Id", (req, res) => {
+  const bookId = req.params.Id;
+  const q =
+    "UPDATE books SET `Title` = ? ,`Desc` = ? ,`Price` = ? ,`Cover` = ? WHERE Id= ? ";
+  const values = [
+    req.body.Title,
+    req.body.Desc,
+    req.body.Price,
+    req.body.Cover,
+  ];
+
+  db.query(q, [...values, bookId], (err, data) => {
+    if (err) return res.json(err);
+    return res.json(`Book with ID ${bookId} has been updated successfully`);
+  });
 });
