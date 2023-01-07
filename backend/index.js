@@ -13,7 +13,7 @@ const db = mysql.createConnection({
   database: "test",
 });
 db.connect((err) => {
-  if (!err) console.log("database connected..");
+  if (!err) console.log("database Connected...");
   else
     console.log(
       "db not connected \n Error : " + JSON.stringify(err, undefined, 2)
@@ -56,10 +56,8 @@ app.delete("/books/:Id", (req, res) => {
     return res.json(`Book with ID ${bookId} has been deleted successfully`);
   });
 });
-app.listen(8800, () => {
-  console.log("Connected to the backend !");
-});
 
+// Edit
 app.put("/books/:Id", (req, res) => {
   const bookId = req.params.Id;
   const q =
@@ -75,4 +73,8 @@ app.put("/books/:Id", (req, res) => {
     if (err) return res.json(err);
     return res.json(`Book with ID ${bookId} has been updated successfully`);
   });
+});
+
+app.listen(8800, () => {
+  console.log("Connected to the backend !");
 });
